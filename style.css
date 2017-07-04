@@ -1,0 +1,15 @@
+#game{
+    width: 40%;
+    height: 100px;
+    float:left;
+    margin-left:30%;
+
+}
+#attempts{
+    width: 20%;
+    text-align: center;
+    font-size: 15px;
+    border: 1px solid darkgrey;
+    height: 100px;
+    float:right;
+}

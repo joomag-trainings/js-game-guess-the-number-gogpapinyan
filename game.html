@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guess the Number | Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="game">
+    <p id="lowerOrHigher"></p>
+    <input type="text" name="number" id="guessInput">
+    <button id="guessSubmit">Submit</button>
+    <p id="resultMessage"></p>
+</div>
+<div id="attempts">
+    <p>Attempts Remain <span id="countDisplay"></span></p>
+    <p>Previous Attempts <span id="arrayDisplay"></span></p>
+</div>
+<script>
+    var randomNumber;
+    var attemptsCount = 0;
+    var guessInput = document.getElementById('guessInput');
+    var guessSubmit = document.getElementById('guessSubmit');
+    var lowerOrHigher = document.getElementById('lowerOrHigher');
+    var resultMessage = document.getElementById('resultMessage');
+    var countDisplay = document.getElementById('countDisplay');
+    var arrayDisplay = document.getElementById('arrayDisplay');
+    countDisplay.textContent = "10";
+    function generateRandomNumber() {
+        return Math.floor(Math.random() * 100);
+    }
+    function guessNumber() {
+        attemptsCount++;
+        countDisplay.textContent = 10 - attemptsCount;
+
+        var submittedNumber = parseInt(guessInput.value);
+        arrayDisplay.textContent += submittedNumber + ' ';
+        if (submittedNumber === randomNumber){
+            resultMessage.textContent = 'YOU WON!!!';
+            gameOver();
+        } else {
+            if (attemptsCount < 10) {
+                if (submittedNumber < randomNumber) {
+                    lowerOrHigher.textContent = 'Last guess was too low!';
+                } else {
+                    lowerOrHigher.textContent = 'Last guess was too high!';
+                }
+            } else {
+                resultMessage.textContent = 'GAME OVER!!!  ';
+                gameOver();
+            }
+        }
+        guessInput.value = '';
+        guessInput.focus();
+    }
+    function gameOver() {
+        guessInput.disabled = 'disabled';
+        guessSubmit.disabled = 'disabled';
+        var resetButton = document.createElement('button');
+        resetButton.value = 'Reset';
+        resetButton.textContent = 'Reset';
+        resetButton.id = 'resetButton';
+        resetButton.addEventListener('click', reset);
+        document.body.appendChild(resetButton);        }
+    function reset() {
+        guessInput.removeAttribute('disabled');
+        guessSubmit.removeAttribute('disabled');
+        randomNumber = generateRandomNumber();
+        attemptsCount = 0;
+        var resetButton = document.getElementById('resetButton');
+        document.body.removeChild(resetButton);
+        lowerOrHigher.textContent = '';
+        resultMessage.textContent = '';
+        countDisplay.textContent = "10";
+        arrayDisplay.textContent += submittedNumber + ' ';
+
+    }
+    randomNumber = generateRandomNumber();
+    guessSubmit.addEventListener('click', guessNumber);
+</script>
+</body>
+</html>
